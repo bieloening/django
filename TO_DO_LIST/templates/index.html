@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <main>
+        <nav>
+            <h1>Lista de Tarefas</h1>
+            <ul>
+                <li>Usuário</li>
+                <li><a href="">Sair</a></li>
+            </ul>
+        </nav>
+        <section>
+            <a href="{% url 'adicionar' %}">Adicionar</a>
+            <table>
+                <tr>
+                  <th>Tarefa</th>
+                  <th class="tarefa">Descrição</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+                {% for tarefa in tarefas %}
+                <tr>
+                  <td>{{tarefa.titulo}}</td>
+                  <td>{{tarefa.descricao}}</td>
+                  <td>{{tarefa.data}}</td>
+                  <td>{{tarefa.status}}</td>
+                  <td><a class="adicionar" href="{% url 'finalizar' tarefa.id %}">Finalizar</a></td>
+                  <td><a class="editar" href="{% url 'editar' tarefa.id %}">Editar</a></td>
+                  <td><a class="excluir" href="{% url 'deletar' tarefa.id %}">Excluir</a></td>
+                </tr>
+                {% endfor %}
+              </table>
+
+              <div class="pagination">
+                <a href="">1</a>
+                <a href="">2</a>
+                <a href="">3</a>
+              </div>
+              
+        </section>
+    </main>
+</body>
+</html>
