@@ -1,6 +1,7 @@
 from ast import Return
 from django.shortcuts import redirect, render
 from .models import Tarefas
+from django.contrib import auth
 
 def index(request):
     tarefas = Tarefas.objects.all()
@@ -66,3 +67,19 @@ def editar(request, id):
     else:
         return render(request, 'editar.html', {'item' :item})
 
+
+def logar(request):
+
+    if request.method == 'POST':
+        usuario = request.POST.get('usuario')
+        senha = request.POST.get('senha')
+        check = auth.authenticate(request, username=usuario, password=senha)
+
+        if check is not None:
+            auth.login(request, check)
+            return redirect('home')
+        else:
+            return redirect('login')
+
+    else:
+        return render(request, 'logar.html')

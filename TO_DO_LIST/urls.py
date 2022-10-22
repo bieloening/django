@@ -1,6 +1,7 @@
 from unicodedata import name
 from django.urls import path
 from . import views
+from django.contrib import auth
 
 urlpatterns = [ 
     path('', views.index, name='home'),
@@ -8,5 +9,7 @@ urlpatterns = [
     path('adicionar_tarefa/', views.adicionar_tarefa, name='adicionar_tarefa'),
     path('deletar/<int:id>/', views.deletar, name='deletar'),
     path('finalizar/<int:id>/', views.finalizar, name='finalizar'),
-    path('editar/<int:id>/', views.editar, name='editar')
+    path('editar/<int:id>/', views.editar, name='editar'),
+    path('logar/', views.logar, name='logar')
+    
 ]
