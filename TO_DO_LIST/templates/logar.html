@@ -9,7 +9,14 @@
     <link rel="stylesheet" href="{% static 'login.css' %}">
 </head>
 <body>
-    
+    {% for message in messages %}
+        {% if message %}
+            <!-- <h1>{{message}}</h1> -->
+            <script>
+                alert('{{message}}')
+            </script>
+        {% endif %}
+    {% endfor %}
         <form method="POST" action=""> {% csrf_token %}
             <h1>Login</h1>
             <input name="logarUsuario" id="telefoneEmail" type="text" placeholder="Nº Telefone ou E-mail">

@@ -2,10 +2,19 @@ from ast import Return
 from django.shortcuts import redirect, render
 from .models import Tarefas
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 
+@login_required(redirect_field_name= 'logar')
 def index(request):
-    tarefas = Tarefas.objects.all()
+
+    if request.user.is_superuser:
+        tarefas = Tarefas.objects.all()
+        return render(request, 'index.html', {'tarefas':tarefas})
+
+    tarefas = Tarefas.objects.filter(usuario_id=request.user.id)
     return render(request, 'index.html', {'tarefas':tarefas})
+
+
 
 def adicionar(request):
     return render(request, 'adicionar.html')
@@ -23,7 +32,7 @@ def adicionar_tarefa(request):
     else:
         status = True
 
-    Tarefas.objects.create(titulo=titulo, descricao=descricao, data=data, status=status)
+    Tarefas.objects.create(titulo=titulo, descricao=descricao, data=data, status=status, usuario_id=request.user.id)
 
     return redirect('home')
 
@@ -68,18 +77,8 @@ def editar(request, id):
         return render(request, 'editar.html', {'item' :item})
 
 
-def logar(request):
+def buscar(request):
+    termo = request.GET.get('termo')
 
-    if request.method == 'POST':
-        usuario = request.POST.get('usuario')
-        senha = request.POST.get('senha')
-        check = auth.authenticate(request, username=usuario, password=senha)
-
-        if check is not None:
-            auth.login(request, check)
-            return redirect('home')
-        else:
-            return redirect('login')
-
-    else:
-        return render(request, 'logar.html')
+    tarefas = Tarefas.objects.filter(titulo__icontains=termo)
+    return render(request, 'index.html', {'tarefas':tarefas})

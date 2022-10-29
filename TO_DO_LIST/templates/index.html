@@ -13,11 +13,16 @@
         <nav>
             <h1>Lista de Tarefas</h1>
             <ul>
-                <li>Usuário</li>
-                <li><a href="">Sair</a></li>
+                <li>{{user}}</li>
+                <li><a href="{% url 'logout' %}">Sair</a></li>
             </ul>
         </nav>
         <section>
+            <form action="{% url 'buscar' %}" method="GET">
+              <input type="text" name="termo">
+              <button type="submit">Buscar</button>
+
+            </form>
             <a href="{% url 'adicionar' %}">Adicionar</a>
             <table>
                 <tr>
